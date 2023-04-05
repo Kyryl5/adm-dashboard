@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/adm-dashboard/static/css/main.15fd2b43.css",
+    "main.js": "/adm-dashboard/static/js/main.a47d953c.js",
+    "index.html": "/adm-dashboard/index.html",
+    "main.15fd2b43.css.map": "/adm-dashboard/static/css/main.15fd2b43.css.map",
+    "main.a47d953c.js.map": "/adm-dashboard/static/js/main.a47d953c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.15fd2b43.css",
+    "static/js/main.a47d953c.js"
+  ]
+}
