@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import LoginForm from './components/LoginForm'
+import { useDispatch } from 'react-redux'
+import { setAuth } from './redux/reducers/authReducer'
+import { Routes, Route } from 'react-router-dom'
+import ProtectedRoute from './router/ProtectedRoute'
+import RegistrationForm from './components/RegistrationForm'
+import MainPage from './components/MainPage'
 
-function App() {
+export default function App() {
+  const isAuth = useSelector((state) => state.auth.isAuth)
+  const isActivated = useSelector((state) => state.auth.user.isActivated)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    dispatch(setAuth(!!token))
+  }, [dispatch])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{isAuth ? 'Authorized' : 'Unauthorized'}</h1>
+      <h1>{isActivated ? 'Activated' : 'Unactivated'}</h1>
+      <Routes>
+        <Route exact path="/login" element={<LoginForm />} />
+        <Route path="/registration" element={<RegistrationForm />} />
+        <Route path="*" element={<ProtectedRoute element={MainPage} />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
