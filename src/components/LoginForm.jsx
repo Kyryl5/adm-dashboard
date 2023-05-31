@@ -1,57 +1,39 @@
-import { useState } from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Visibility from '@mui/icons-material/Visibility'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import InputAdornment from '@mui/material/InputAdornment'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { useDispatch } from 'react-redux'
-import { login } from '../redux/actions/index'
-import { NavLink, useNavigate } from 'react-router-dom'
-
-const theme = createTheme()
+import { NavLink } from 'react-router-dom'
+import { Box, Grid, Avatar, Typography, Container, useTheme } from '@mui/material'
+import SendingForm from './SendingForm'
+import { tokens } from '../theme'
+import Copyright from './Copyright'
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(login(email, password))
-      .then(() => {
-        navigate('/') // navigate to home page on successful login
-      })
-      .catch((error) => {
-        console.log(error) // handle login error
-      })
-  }
-
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <>
+      <Container component="main" maxWidth="xs" sx={{ height: '95vh', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
         <Box
           sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '50vh',
+            background: `linear-gradient(to bottom right, ${colors.primary[400]}, rgba(255, 255, 255, 0.05))`,
+            boxShadow: '0 1rem 2rem rgba(0, 0, 0, 0.5), -1px -1px 2px #aaa, 1px 1px 2px #555',
+            backdropFilter: 'blur(0.8rem)',
+            padding: '1.5rem',
+            borderRadius: '1rem',
+            animation: '1s cardEnter',
+            '@keyframes cardEnter': {
+              from: {
+                transform: 'translateY(-100vh)',
+                opacity: 0.1,
+              },
+              to: {
+                transform: 'translateY(0)',
+                opacity: 1,
+              },
+            },
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -60,62 +42,18 @@ export default function LoginForm() {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              name="password"
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePasswordVisibility} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Login
-            </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <NavLink to="/registration" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </NavLink>
-              </Grid>
+          <SendingForm type="login" />
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <NavLink to="/registration" variant="body2" style={{ color: 'inherit' }}>
+                {"Don't have an account? Sign Up"}
+              </NavLink>
             </Grid>
-          </Box>
+          </Grid>
         </Box>
-        <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8, mb: 4 }}>
-          {'Copyright © '}
-          <Link color="inherit" href="#">
-            Your Website
-          </Link>{' '}
-          {new Date().getFullYear()}
-          {'.'}
-        </Typography>
       </Container>
-    </ThemeProvider>
+      <Copyright />
+    </>
   )
 }
