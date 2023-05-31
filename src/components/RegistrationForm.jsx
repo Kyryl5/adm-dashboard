@@ -1,37 +1,40 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { registration } from '../redux/actions/index'
-import { Link } from 'react-router-dom'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-const theme = createTheme()
+import { Box, Grid, Avatar, Typography, Container, useTheme } from '@mui/material'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import { NavLink } from 'react-router-dom'
+import SendingForm from './SendingForm'
+import { tokens } from '../theme'
+import Copyright from './Copyright'
 
 export default function RegistrationForm() {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const dispatch = useDispatch()
-
+  const theme = useTheme()
+  const colors = tokens(theme.palette.mode)
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <>
+      <Container component="main" maxWidth="xs" sx={{ height: '95vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Box
           sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '50vh',
+            background: `linear-gradient(to bottom right, ${colors.primary[400]}, rgba(255, 255, 255, 0.05))`,
+            boxShadow: '0 1rem 2rem rgba(0, 0, 0, 0.5), -1px -1px 2px #aaa, 1px 1px 2px #555',
+            backdropFilter: 'blur(0.8rem)',
+            padding: '1.5rem',
+            borderRadius: '1rem',
+            animation: '1s cardEnter',
+            '@keyframes cardEnter': {
+              from: {
+                transform: 'translateX(100vw)',
+                opacity: 0.1,
+              },
+              to: {
+                transform: 'translateX(0)',
+                opacity: 1,
+              },
+            },
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -40,85 +43,18 @@ export default function RegistrationForm() {
           <Typography component="h1" variant="h5">
             Registration
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="fname"
-                  name="firstName"
-                  required
-                  fullWidth
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
+          <SendingForm type="sendData" />
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <NavLink to="/login" variant="body2" style={{ color: 'inherit' }}>
+                {" Already have an account? Login"}
+              </NavLink>
             </Grid>
-            <Button
-              onClick={() => dispatch(registration(firstName, lastName, email, password))}
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Register
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/login" variant="body2">
-                  Already have an account? Login
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+          </Grid>
         </Box>
-        <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8, mb: 4 }}>
-          {'Copyright © '}
-          <Link color="inherit" href="#">
-            Your Website
-          </Link>{' '}
-          {new Date().getFullYear()}
-          {'.'}
-        </Typography>
       </Container>
-    </ThemeProvider>
-  )
+      <Copyright />
+    </>
+  );
 }
