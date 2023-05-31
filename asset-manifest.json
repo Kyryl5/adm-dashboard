@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/adm-dashboard/static/css/main.15fd2b43.css",
-    "main.js": "/adm-dashboard/static/js/main.bb7aa8c5.js",
+    "main.css": "/adm-dashboard/static/css/main.8dde04b6.css",
+    "main.js": "/adm-dashboard/static/js/main.cb078094.js",
     "index.html": "/adm-dashboard/index.html",
-    "main.15fd2b43.css.map": "/adm-dashboard/static/css/main.15fd2b43.css.map",
-    "main.bb7aa8c5.js.map": "/adm-dashboard/static/js/main.bb7aa8c5.js.map"
+    "main.8dde04b6.css.map": "/adm-dashboard/static/css/main.8dde04b6.css.map",
+    "main.cb078094.js.map": "/adm-dashboard/static/js/main.cb078094.js.map"
   },
   "entrypoints": [
-    "static/css/main.15fd2b43.css",
-    "static/js/main.bb7aa8c5.js"
+    "static/css/main.8dde04b6.css",
+    "static/js/main.cb078094.js"
   ]
 }
